@@ -1,0 +1,30 @@
+os:
+  # - linux  # https://bugs.swift.org/browse/SR-1503
+  - osx
+
+language: 
+  generic
+
+sudo: 
+  required
+
+dist: 
+  trusty
+
+osx_image:
+  xcode8.2
+
+script:
+  - eval "$(curl -sL https://swift.vapor.sh/ci)"
+  # - eval "$(curl -sL https://swift.vapor.sh/codecov)"
+
+before_deploy:
+  - rm -rf Packages/
+  - rm -rf .build/
+
+deploy:
+  provider: heroku
+  buildpack: https://github.com/kylef/heroku-buildpack-swift
+  api_key: $HEROKU_API_KEY
+  app: todolistswift
+  
